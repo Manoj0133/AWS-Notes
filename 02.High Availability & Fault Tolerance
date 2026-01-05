@@ -1,0 +1,21 @@
+*High Availability & Fault Tolerance
+-->If you are storing data like one E-Commerce application (like Myntra), you definitely need these characteristics.
+1. AWS Security: It provides strong security to protect application data and users.
+2. AWS High Availability: If the application is always accessible, even if one server fails,
+3. AWS Fault-Tolerance: It means the system continues working even when failures occur.
+4. AWS Scalability: It allows the application to handle traffic changes automatically.
+
+*AWS Security: It is a collection of services, controls, and best practices that protect applications, data, and infrastructure using identity management, network security, encryption, monitoring, and compliance.
+->Real-Time Scenario- IAM roles (least privilege), private subnets, security groups, encrypted RDS, GuardDuty, CloudTrail
+
+*AWS High-Availability: It is a system design approach where an application continues to operate with minimal or no downtime even if one or more servers or Availability Zones fail.
+->Real-Time Scenario- If one EC2 instance fails in an e-commerce application, the Application Load Balancer routes traffic to healthy instances in another Availability Zone, ensuring the application 
+                      remains accessible.
+
+*AWS Fault-Tolerance: It is the ability of a system to continue operating without interruption even when a component fails, by using duplicate resources running simultaneously.\
+->Real-Time Scenario - An e-commerce application utilizes Multi-AZ RDS with synchronous replication.
+                       If the primary database fails, AWS automatically switches to the standby database with no data loss and no downtime.
+
+*AWS Scalability: It is the ability of AWS infrastructure to automatically adjust resources to handle varying application loads efficiently.
+->Real-Time Scenario- During a festival sale, an e-commerce application experiences heavy traffic.
+                      AWS Auto Scaling automatically launches new EC2 instances to handle the load and terminates them when traffic decreases.
