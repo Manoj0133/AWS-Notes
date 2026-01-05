@@ -1,0 +1,95 @@
+1.AWS Cloud-1
+-->Definition AWS: it is a cloud computing platform provided by Amazon that offers on-demand IT resources-such as servers, storage, databases, networking, and software.
+                   over the internet on a pay-as-you-go basis.
+                        (or)
+Sample Definition: It is a cloud platform that lets you rent computing resources instead of buying and managing physical servers.
+
+A.Fundamentals of Cloud Computing
+->Data Center: It is a building, a dedicated space within a building, or a group of buildings used to house computer systems and associated components, such as telecommunications and 
+               storage systems.
+->Cloud Computing: It can also refer to cloud-computing is the on-demand availability of compute power, database storage, applications, and other IT resources through a cloud service
+                   platform(AWS/AZURE/GCP/Oracle etc.,) via the internet with pay-as-you-go pricing.
+                        
+                                                            Myntra/Any Application
+                                                     |--------Servers--------------------->AWS EC2
+                                                     |        Storage--------------------->AWS S3
+                            Infrastructure/components|        Databases------------------->AWS RDS         
+                                                     |        Networking------------------>AWS VPC
+                                                     |        Security-------------------->AWS IAM
+                                                     |--------etc.,-----------------------> etc.,
+->Program:
+AWSTemplateFormatVersion: "2010-09-09"
+Description: CloudFormation template to create a VPC and a subnet.
+
+Resources:
+  # Create a VPC
+  MyVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        - Key: Name
+          Value: MyVPC
+
+  # Create an Internet Gateway
+  MyInternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: MyInternetGateway
+
+  # Attach Internet Gateway to the VPC
+  AttachGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId:!Ref MyVPC
+      InternetGatewayId: !Ref MyInternetGateway
+
+  # Create a public subnet
+  MySubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref MyVPC
+      CidrBlock: 10.0.1.0/24
+      AvailabilityZone: !Select [ 0, !GetAZs "" ]
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: MyPublicSubnet
+
+  # Create a route table
+  MyRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:!Ref MyVPC
+      Tags:
+        - Key: Name
+          Value: MyPublicRouteTable
+
+  # Create a route to the Internet Gateway
+  MyRoute:
+    Type: AWS::EC2::Route
+    DependsOn: AttachGateway
+    Properties:
+      RouteTableId: !Ref MyRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref MyInternetGateway
+
+  # Associate the subnet with the route table
+  MySubnetRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref MySubnet
+      RouteTableId: !Ref MyRouteTable
+
+Outputs:
+  VPCId:
+    Description: ID of the created VPC
+    Value: !Ref MyVPC
+
+  SubnetId:
+    Description: ID of the created Subnet
+    Value: !Ref MySubnet
