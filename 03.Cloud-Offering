@@ -1,0 +1,100 @@
+->Cloud-Offering: It refers to how AWS delivers IT resources—such as compute, storage, networking, databases, security, analytics, and software—over the internet using a pay-as-you-go pricing model, classified 
+                  by management responsibility.
+->Types of Cloud-Offering
+1.IaaS – Infrastructure as a Service
+2.PaaS – Platform as a Service
+3.SaaS – Software as a Service
+
+1.Iaas-(Infrastructure as a Service)
+       It provides raw infrastructure resources such as virtual machines, storage, and networking. The customer controls everything above the hardware.
+->Responsibility Model
+->AWS manages: Data centers, physical servers, networking hardware
+->Customer manages: OS, middleware, runtime, applications, data, security inside OS
+
+->AWS IaaS Services
+i.Amazon EC2 – Virtual servers
+ii. Amazon EBS – Block storage
+iii . Amazon VPC – Networking
+iv . Elastic Load Balancer
+v.Elastic IP
+vi. Auto Scaling
+
+->Practical Use Cases
+i.Legacy application migration
+ii. Custom OS configurations
+iii. Full control over security and software
+iv. Compliance-heavy workloads
+
+->Practical Setup Example (Database on IaaS)
+Step:1:Create VPC
+Step:2:Create Public & Private Subnets
+Step:3:Configure Route Tables
+Step:4:Set up Internet Gateway & NAT Gateway
+Step:5:Launch EC2 Instance
+Step:6:Install OS Updates
+Step 7: Install Database Software (MySQL)
+Step:8:Configure Security (Firewall, Users)
+Step:9:Set Up Manual Backups
+Step:10:Monitor & Patch System
+
+2.PaaS (Platform as a Service)
+        It provides a managed platform where AWS handles infrastructure and OS, so customers can focus on the application and data.
+->Responsibility Model
+->AWS manages: Infrastructure, OS, patching, availability, scaling
+->Customer manages: Application logic, data, configuration
+
+->AWS PaaS Services
+i.Amazon RDS
+ii. AWS Elastic Beanstalk
+iii. AWS App Runner
+iv. Amazon ECS with Fargate
+
+->Practical Use Cases
+i.Web applications
+ii.APIs
+iii. Microservices
+iv . Managed databases
+v.Faster development cycles
+
+->Practical Setup Example (Database on PaaS – RDS)
+Step:1-Choose DB Engine (MySQL/PostgreSQL)
+Step:2-Launch RDS Instance
+Step:3-AWS Automatically Handles:
+      - OS & DB installation
+      - Patching
+      - Backups
+      - Monitoring
+     - High availability (Multi-AZ)
+Step:4:Customer Handles:
+- Schema
+- Queries
+- Data
+
+3.SaaS (Software as a Service)
+       It delivers fully functional applications over the internet. The customer only uses the software.
+->Responsibility Model
+->AWS manages: Everything
+->Customer manages: Usage and access
+
+->AWS SaaS Services
+i.Amazon WorkSpaces
+ii. Amazon Chime
+iii . Amazon QuickSight
+iv. AWS Managed Grafana
+v.AWS Managed Prometheus
+
+->Practical Use Cases
+i. Business intelligence
+ii. Collaboration tools
+iii. Virtual desktops
+iv. Monitoring dashboards
+
+->Practical Example
+Step 1- Log in to AWS Console
+Step 2:- Open SaaS Service
+Step:3:- Configure Users
+Step:4:- Use Application
+
+->What is the use of cloud offerings in AWS?
+A. The cloud offering is to define how cloud services are delivered and managed, helping users choose the right service model (IaaS, PaaS, or SaaS) based on the level of control, responsibility, 
+   and management required.
