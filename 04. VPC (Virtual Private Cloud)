@@ -157,3 +157,7 @@ NAT Gateway
    ↓
 Private Subnet → Private EC2 / Databases
 
+
+<-----------------------------------------------------------------VPC WorkFlow------------------------------------------------------------------------>
+  To enable access to or from the internet to an instance in a VPC subnet, you must attach an internet gateway to your VPC, ensure that your subnet route table points to the Internet gateway, and ensure that 
+insatnce has a public IP address, and ensure that your network access control and security group rules allow the relevant traffic to your instance
