@@ -1,0 +1,159 @@
+*AWS VPC (Virtual Private Cloud):
+                   A VPC (Virtual Private Cloud) is a logically isolated virtual network in AWS where you can launch and manage your cloud resources securely. It gives you full 
+                   control over:
+                  Subnets
+                  Routing
+                  Security
+                  Network gateways
+*Types of VPC in AWS
+->Default VPC: Automatically created in each region when you create an AWS account.
+Features:
+Ready-to-use
+Contains public subnets
+Internet access enabled
+Easy for beginners
+Example: Launching a quick test EC2 instance without configuring networking.
+
+->Custom VPC: Created manually, providing full control over configuration.
+Features:
+Custom IP range (CIDR)
+Public and private subnets
+Custom routing
+More secure architecture
+Example: Production web app with separate public (web servers) and private (database) networks.
+
+->Types of Subnets in AWS
+i.Public Subnet – Instances are accessible from the Internet (via IGW).
+ii. Private Subnet – Instances have no direct inbound Internet access; outbound access possible via NAT Gateway.
+
+->Components of a VPC
+1. CIDR Block (Classless Inter-Domain Routing)
+Defines the IP address range for the VPC.
+Example: 10.0.0.0/16
+
+->Subnets: A subnet is a smaller network inside a VPC, or a logical subdivision of a VPC IP range.
+Types of Subnet:
+2. Public Subnet: Route table has a route to an Internet Gateway, and instances have public IPs.
+Example: Web server accessible from the Internet.
+
+3. Private Subnet: No direct inbound Internet access; outbound Internet access via NAT Gateway.
+Example: Database server for security.
+
+4. Internet Gateway (IGW)
+Enables communication between the VPC and the Internet.
+Example: Users accessing your website hosted on EC2.
+
+5. Route Table
+Defines how traffic flows within the VPC.
+Example: Route 0.0.0.0/0 → IGW sends Internet traffic to the gateway.
+
+7. Security Groups
+Acts as a virtual firewall at the instance level.
+Example: Allow HTTP (port 80) and SSH (port 22).
+
+8. Network ACL (NACL)
+Firewall at the subnet level.
+Example: Allow HTTP but deny a specific IP address.
+
+9. NAT Gateway / NAT Instance
+Enables private subnet resources to access the Internet without exposing them.
+Example: Private EC2 instance downloading updates.
+
+10. Elastic IP
+Static public IPv4 address.
+Example: Fixed IP for a production server.
+
+11. VPC Peering
+Connects two VPCs privately.
+Example: Connect development and production environments.
+
+12. VPN Gateway
+Provides a secure connection between the on-premises network and the VPC.
+Example: Company office network connecting to AWS.
+
+13. VPC Endpoints (Advanced)
+Enables private access to AWS services (like S3 or DynamoDB) without using the Internet or a NAT Gateway.
+Example: Private EC2 accessing S3 directly.
+
+14. Flow Logs (Monitoring & Security)
+Captures all network traffic in/out of VPC, subnets, or ENIs.
+Example: Auditing traffic for security or troubleshooting.
+
+15. Elastic Load Balancer (ELB) Integration (Advanced Architecture)
+Typically deployed in public subnets to distribute traffic to private instances.
+Example: Public ELB → Private web servers → Private databases.
+
+16. VPC Best Practices
+Use private subnets for databases and critical systems.
+Use security groups as stateful firewalls; NACLs as stateless firewalls.
+Deploy subnets across multiple Availability Zones (AZs) for high availability.
+Consider VPC Endpoints for private access to AWS services.
+Monitor traffic using VPC Flow Logs.
+
+<--------------------AWS VPC Labs (Step-by-Step)-------------------->
+Step 1 — Create VPC
+Go to the VPC Dashboard → Click Create VPC → Select VPC Only
+Enter details:
+Name → My-Lab-VPC
+CIDR → 10.0.0.0/16
+Tenancy → Default → Click Create
+
+Step 2 — Create Subnets
+Public Subnet:
+Go to Subnets → Create Subnet
+Name → Public-Subnet
+AZ → Any (e.g., ap-south-1a)
+CIDR → 10.0.1.0/24 → Create
+Private Subnet:
+Create another subnet
+Name → Private-Subnet
+AZ → Same or different
+CIDR → 10.0.2.0/24 → Create
+
+Step 3 — Create Internet Gateway (IGW)
+Go to Internet Gateways → Click Create
+Name → My-IGW → Attach to VPC
+
+Step 4 — Create Route Table for Public Subnet
+Go to Route Tables → Create
+Name → Public-RT → Select VPC → My-Lab-VPC
+Edit routes:
+Add route: Destination → 0.0.0.0/0, Target → Internet Gateway
+
+Step 5 — Create NAT Gateway
+Go to NAT Gateways → Click Create
+Subnet → Public Subnet → Allocate Elastic IP → Create
+
+Step 6 — Create Private Route Table
+Create new route table → Name → Private-RT
+Edit routes:
+Add route: Destination → 0.0.0.0/0, Target → NAT Gateway
+
+Step 7 — Launch EC2 in Public Subnet
+Go to EC2 → Launch Instance
+Name → Public-EC2
+Network → My-Lab-VPC, Subnet → Public Subnet
+Auto-assign Public IP → Enable
+Create Security Group → Allow SSH (22)
+
+Step 8 — Launch EC2 in Private Subnet
+Launch another instance
+Name → Private-EC2
+Subnet → Private Subnet
+Public IP → Disable
+Security Group → Allow SSH from Public EC2 only
+
+Step 9 — Connect to Private EC2 (via Public EC2)
+SSH into Public EC2 → Then SSH into Private EC2 using private IP
+
+Final Architecture
+Internet
+   ↓
+Internet Gateway
+   ↓
+Public Subnet → Public EC2 / ELB
+   ↓
+NAT Gateway
+   ↓
+Private Subnet → Private EC2 / Databases
+
